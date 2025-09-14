@@ -16,6 +16,7 @@
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "daisyui": "^5.1.10"
   }
 }
