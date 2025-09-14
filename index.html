@@ -20,16 +20,16 @@
     <header class="bg-primary py-5 mb-10">
       <h1 class="font-bold text-2xl text-center">Quest Board</h1>
     </header>
-    <main class="max-w-[71.25rem] mx-auto grid grid-cols-3 gap-4">
+    <main class="max-w-[71.25rem] mx-auto grid grid-cols-3 gap-4 items-start">
       <!-- Planning Section -->
-      <section class="bg-[#5f7b7b] shadow-md rounded-xl p-4">
-        <h2 class="text-center text-xl font-semibold text-[#d1d9d9] mb-3">
+      <section
+        class="bg-[#5f7b7b] shadow-md rounded-xl p-4 space-y-4 min-h-[9.375rem]">
+        <h2 class="text-center text-xl font-semibold text-[#d1d9d9]">
           Planning
         </h2>
-        <!-- Task List -->
-        <ul id="planningTaskList"></ul>
         <!-- Add  Task-->
         <div
+          role="button"
           id="openModalBtn"
           class="p-2 bg-white rounded-md cursor-pointer hover:bg-primary">
           <svg
@@ -57,10 +57,11 @@
                 placeholder="Type Task Name" />
               <textarea
                 name=""
-                id=""
+                id="taskDetails"
                 class="textarea bg-primary text-body w-full"
                 placeholder="Type Task details"></textarea>
             </div>
+
             <div class="modal-action">
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
@@ -70,17 +71,40 @@
                 <button class="btn bg-primary text-body">Cancel</button>
               </form>
             </div>
+            <!-- Alert -->
+            <div
+              id="taskNameAlert"
+              role="alert"
+              class="alert alert-error alert-vertical sm:alert-horizontal hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span
+                >Task name is requirement. Please type task name to add
+                task</span
+              >
+            </div>
           </div>
         </dialog>
+        <!-- Task List -->
+        <ul id="planningTaskList" class="flex flex-col gap-4 text-primary"></ul>
       </section>
       <!-- Progress Section -->
-      <section class="shadow-md bg-[#fcc419] rounded-xl p-4">
+      <section class="shadow-md bg-[#fcc419] rounded-xl p-4 min-h-[9.375rem]">
         <h2 class="text-center text-xl font-semibold text-dark mb-3">
           In Progress
         </h2>
       </section>
       <!-- Completed Section -->
-      <section class="bg-primary shadow-md rounded-xl p-4">
+      <section class="bg-primary shadow-md rounded-xl p-4 min-h-[9.375rem]">
         <h2 class="text-center text-xl font-semibold text-body mb-3">
           Completed
         </h2>
