@@ -1,0 +1,21 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Sagor Majomder",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "devServer": "live-server",
+    "buildCSS": "npx @tailwindcss/cli -i ./css/input.css -o ./css/output.css --watch",
+    "start": "concurrently \"npm run devServer \" \"npm run buildCSS\" "
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
