@@ -22,8 +22,7 @@
     </header>
     <main class="max-w-[71.25rem] mx-auto grid grid-cols-3 gap-4 items-start">
       <!-- Planning Section -->
-      <section
-        class="bg-[#5f7b7b] shadow-md rounded-xl p-4 space-y-4 min-h-[9.375rem]">
+      <section class="bg-[#5f7b7b] shadow-md rounded-xl p-4 space-y-4">
         <h2 class="text-center text-xl font-semibold text-[#d1d9d9]">
           Planning
         </h2>
@@ -95,19 +94,25 @@
           </div>
         </dialog>
         <!-- Task List -->
-        <ul id="planningTaskList" class="flex flex-col gap-4 text-primary"></ul>
+        <ul
+          id="planningTaskList"
+          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
       </section>
       <!-- Progress Section -->
-      <section class="shadow-md bg-[#fcc419] rounded-xl p-4 min-h-[9.375rem]">
+      <section class="shadow-md bg-[#fcc419] rounded-xl p-4">
         <h2 class="text-center text-xl font-semibold text-dark mb-3">
           In Progress
         </h2>
+        <ul
+          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
       </section>
       <!-- Completed Section -->
-      <section class="bg-primary shadow-md rounded-xl p-4 min-h-[9.375rem]">
+      <section class="bg-primary shadow-md rounded-xl p-4">
         <h2 class="text-center text-xl font-semibold text-body mb-3">
           Completed
         </h2>
+        <ul
+          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
       </section>
     </main>
   </body>
