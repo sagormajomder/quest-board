@@ -10,16 +10,23 @@ const progressTaskListEl = document.getElementById('progressTaskList');
 const completedTaskListEl = document.getElementById('completedTaskList');
 
 const addTaskModalEl = document.getElementById('addTaskModal');
+
 const taskModalEl = document.getElementById('taskModal');
 const taskModalContainerEl = document.getElementById('taskModalContainer');
 
 const taskNameInputEl = document.getElementById('taskName');
 const taskDetailsInputEl = document.getElementById('taskDetails');
 
+const taskErrorAlertEl = document.getElementById('taskNameAlert');
+
 let draggableEl = null;
 
 document.getElementById('openModalBtn').addEventListener('click', e => {
   addTaskModalEl.showModal();
+
+  if (!taskErrorAlertEl.classList.contains('hidden')) {
+    document.getElementById('taskNameAlert').classList.add('hidden');
+  }
 });
 
 // display Task details in modal
@@ -81,7 +88,6 @@ function displayTaskList(tasks, containerEl) {
 
 // ADD TASK
 document.getElementById('addTaskBtn').addEventListener('click', e => {
-  const taskErrorAlertEl = document.getElementById('taskNameAlert');
   const taskName = taskNameInputEl.value;
   const taskDetails = taskDetailsInputEl.value;
   if (!taskName) {
