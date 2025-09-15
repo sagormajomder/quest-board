@@ -1,6 +1,14 @@
 'use strict';
-const data = JSON.parse(localStorage.getItem('data')) || [];
+const state = JSON.parse(localStorage.getItem('state')) || {
+  planningTasks: [],
+  progressTasks: [],
+  completedTasks: [],
+};
+
 const planningTaskListEl = document.getElementById('planningTaskList');
+const progressTaskListEl = document.getElementById('progressTaskList');
+const completedTaskListEl = document.getElementById('completedTaskList');
+
 const modalEl = document.getElementById('addTaskModal');
 
 const taskNameInputEl = document.getElementById('taskName');
@@ -13,26 +21,30 @@ document.getElementById('openModalBtn').addEventListener('click', e => {
 });
 
 // Display Planning task
-function displayTaskList() {
-  if (data.length === 0) return;
+function displayTaskList(tasks, containerEl) {
+  if (tasks.length === 0) return;
 
-  planningTaskListEl.innerHTML = '';
+  containerEl.innerHTML = '';
 
   let html = '';
 
-  data.forEach(d => {
+  tasks.forEach(d => {
     html += `
     <li data-task-id="${d.id}" draggable="true" class="p-2 bg-white rounded-md font-semibold text-lg">${d.taskName}</li>
     `;
   });
 
-  planningTaskListEl.innerHTML = html;
+  containerEl.innerHTML = html;
 
   // Drag El listener
-  document.querySelectorAll("li[draggable='true']").forEach(el => {
-    el.addEventListener('dragstart', e => {
-      draggableEl = e.target;
-    });
+  const draggableLiEls = document.querySelectorAll("li[draggable='true']");
+  draggableLiEls.forEach(el => {
+    if (!el.hasListener) {
+      el.addEventListener('dragstart', e => {
+        draggableEl = e.target;
+      });
+      el.hasListener = true;
+    }
   });
 }
 
@@ -53,14 +65,12 @@ document.getElementById('addTaskBtn').addEventListener('click', e => {
 
   const newTask = { id: crypto.randomUUID(), taskName, taskDetails };
 
-  data.push(newTask);
-  localStorage.setItem('data', JSON.stringify(data));
+  state.planningTasks.push(newTask);
+  localStorage.setItem('state', JSON.stringify(state));
   taskNameInputEl.value = '';
   taskDetailsInputEl.value = '';
-  displayTaskList();
+  displayTaskList(state.planningTasks, planningTaskListEl);
 });
-
-displayTaskList();
 
 // Drop
 document.querySelectorAll('.drop-zone').forEach(el => {
@@ -91,8 +101,69 @@ document.querySelectorAll('.drop-zone').forEach(el => {
     if (e.target.classList.contains('drop-zone')) {
       e.target.classList.add('min-h-[3.125rem]');
       e.target.classList.remove('h-[6.25rem]');
+
+      // Check is tasklist contain the task
+      const taskId = draggableEl.dataset.taskId;
+
+      if (state.planningTasks.find(t => t.id === taskId)) {
+        const task = state.planningTasks.find(t => t.id === taskId);
+
+        // remove the task
+        const index = state.planningTasks.indexOf(task);
+        if (index !== -1) {
+          state.planningTasks.splice(index, 1);
+        }
+
+        // add the task
+        if (el === progressTaskListEl) {
+          state.progressTasks.push(task);
+        }
+        if (el === completedTaskListEl) {
+          state.completedTasks.push(task);
+        }
+      } else if (state.progressTasks.find(t => t.id === taskId)) {
+        const task = state.progressTasks.find(t => t.id === taskId);
+
+        // remove the task
+        const index = state.progressTasks.indexOf(task);
+        if (index !== -1) {
+          state.progressTasks.splice(index, 1);
+        }
+
+        // add the task
+        if (el === planningTaskListEl) {
+          state.planningTasks.push(task);
+        }
+
+        if (el === completedTaskListEl) {
+          state.completedTasks.push(task);
+        }
+      } else if (state.completedTasks.find(t => t.id === taskId)) {
+        const task = state.completedTasks.find(t => t.id === taskId);
+
+        // remove the task
+        const index = state.completedTasks.indexOf(task);
+        if (index !== -1) {
+          state.completedTasks.splice(index, 1);
+        }
+
+        // add the task
+        if (el === planningTaskListEl) {
+          state.planningTasks.push(task);
+        }
+
+        if (el === progressTaskListEl) {
+          state.progressTasks.push(task);
+        }
+      }
       e.target.appendChild(draggableEl);
-      console.log(draggableEl);
+
+      //  Set state into localstorage
+      localStorage.setItem('state', JSON.stringify(state));
     }
   });
 });
+
+displayTaskList(state.planningTasks, planningTaskListEl);
+displayTaskList(state.progressTasks, progressTaskListEl);
+displayTaskList(state.completedTasks, completedTaskListEl);
