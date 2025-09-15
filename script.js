@@ -24,7 +24,7 @@ document.getElementById('openModalBtn').addEventListener('click', e => {
 
 // display Task details in modal
 function displayTaskModal(taskId) {
-  console.log(taskId);
+  // console.log(taskId);
   let task = null;
   if (state.planningTasks.find(t => t.id === taskId)) {
     task = state.planningTasks.find(t => t.id === taskId);
@@ -33,8 +33,8 @@ function displayTaskModal(taskId) {
   } else if (state.completedTasks.find(t => t.id === taskId)) {
     task = state.completedTasks.find(t => t.id === taskId);
   }
-  console.log(task);
-  console.log(taskModalContainerEl);
+  // console.log(task);
+  // console.log(taskModalContainerEl);
   taskModalContainerEl.innerHTML = `
   <h3 class="text-2xl text-primary font-bold mb-3">${task.taskName} - (${task.emoji})</h3>
   <p class="text-lg text-primary font-medium">
@@ -71,7 +71,7 @@ function displayTaskList(tasks, containerEl) {
       });
 
       el.addEventListener('click', e => {
-        displayTaskModal(e.target.dataset.taskId);
+        displayTaskModal(e.target.closest('[draggable]').dataset.taskId);
         taskModalEl.showModal();
       });
       el.hasListener = true;
