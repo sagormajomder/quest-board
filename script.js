@@ -9,7 +9,9 @@ const planningTaskListEl = document.getElementById('planningTaskList');
 const progressTaskListEl = document.getElementById('progressTaskList');
 const completedTaskListEl = document.getElementById('completedTaskList');
 
-const modalEl = document.getElementById('addTaskModal');
+const addTaskModalEl = document.getElementById('addTaskModal');
+const taskModalEl = document.getElementById('taskModal');
+const taskModalContainerEl = document.getElementById('taskModalContainer');
 
 const taskNameInputEl = document.getElementById('taskName');
 const taskDetailsInputEl = document.getElementById('taskDetails');
@@ -17,10 +19,31 @@ const taskDetailsInputEl = document.getElementById('taskDetails');
 let draggableEl = null;
 
 document.getElementById('openModalBtn').addEventListener('click', e => {
-  modalEl.showModal();
+  addTaskModalEl.showModal();
 });
 
-// Display Planning task
+// display Task details in modal
+function displayTaskModal(taskId) {
+  console.log(taskId);
+  let task = null;
+  if (state.planningTasks.find(t => t.id === taskId)) {
+    task = state.planningTasks.find(t => t.id === taskId);
+  } else if (state.progressTasks.find(t => t.id === taskId)) {
+    task = state.progressTasks.find(t => t.id === taskId);
+  } else if (state.completedTasks.find(t => t.id === taskId)) {
+    task = state.completedTasks.find(t => t.id === taskId);
+  }
+  console.log(task);
+  console.log(taskModalContainerEl);
+  taskModalContainerEl.innerHTML = `
+  <h3 class="text-2xl text-primary font-bold mb-3">${task.taskName} - (${task.emoji})</h3>
+  <p class="text-lg text-primary font-medium">
+            Task Details: <span class="font-normal">${task.taskDetails}</span>
+  </p>
+  `;
+}
+
+// Display TaskList
 function displayTaskList(tasks, containerEl) {
   if (tasks.length === 0) return;
 
@@ -30,7 +53,10 @@ function displayTaskList(tasks, containerEl) {
 
   tasks.forEach(d => {
     html += `
-    <li data-task-id="${d.id}" draggable="true" class="p-2 bg-white rounded-md font-semibold text-lg">${d.taskName}</li>
+    <li data-task-id="${d.id}" draggable="true" class="p-2 bg-white rounded-md font-semibold text-lg cursor-pointer flex justify-between items-center">
+    <span>${d.taskName}</span>
+    <span>${d.emoji}</span>
+    </li>
     `;
   });
 
@@ -42,6 +68,11 @@ function displayTaskList(tasks, containerEl) {
     if (!el.hasListener) {
       el.addEventListener('dragstart', e => {
         draggableEl = e.target;
+      });
+
+      el.addEventListener('click', e => {
+        displayTaskModal(e.target.dataset.taskId);
+        taskModalEl.showModal();
       });
       el.hasListener = true;
     }
@@ -63,7 +94,12 @@ document.getElementById('addTaskBtn').addEventListener('click', e => {
     document.getElementById('taskNameAlert').classList.add('hidden');
   }
 
-  const newTask = { id: crypto.randomUUID(), taskName, taskDetails };
+  const newTask = {
+    id: crypto.randomUUID(),
+    taskName,
+    taskDetails,
+    emoji: '🔥',
+  };
 
   state.planningTasks.push(newTask);
   localStorage.setItem('state', JSON.stringify(state));
@@ -116,10 +152,10 @@ document.querySelectorAll('.drop-zone').forEach(el => {
 
         // add the task
         if (el === progressTaskListEl) {
-          state.progressTasks.push(task);
+          state.progressTasks.push({ ...task, emoji: '🚀' });
         }
         if (el === completedTaskListEl) {
-          state.completedTasks.push(task);
+          state.completedTasks.push({ ...task, emoji: '✅' });
         }
       } else if (state.progressTasks.find(t => t.id === taskId)) {
         const task = state.progressTasks.find(t => t.id === taskId);
@@ -132,11 +168,11 @@ document.querySelectorAll('.drop-zone').forEach(el => {
 
         // add the task
         if (el === planningTaskListEl) {
-          state.planningTasks.push(task);
+          state.planningTasks.push({ ...task, emoji: '🔥' });
         }
 
         if (el === completedTaskListEl) {
-          state.completedTasks.push(task);
+          state.completedTasks.push({ ...task, emoji: '✅' });
         }
       } else if (state.completedTasks.find(t => t.id === taskId)) {
         const task = state.completedTasks.find(t => t.id === taskId);
@@ -149,14 +185,17 @@ document.querySelectorAll('.drop-zone').forEach(el => {
 
         // add the task
         if (el === planningTaskListEl) {
-          state.planningTasks.push(task);
+          state.planningTasks.push({ ...task, emoji: '🔥' });
         }
 
         if (el === progressTaskListEl) {
-          state.progressTasks.push(task);
+          state.progressTasks.push({ ...task, emoji: '🚀' });
         }
       }
       e.target.appendChild(draggableEl);
+      displayTaskList(state.planningTasks, planningTaskListEl);
+      displayTaskList(state.progressTasks, progressTaskListEl);
+      displayTaskList(state.completedTasks, completedTaskListEl);
 
       //  Set state into localstorage
       localStorage.setItem('state', JSON.stringify(state));

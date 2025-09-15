@@ -116,6 +116,19 @@
           id="completedTaskList"
           class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
       </section>
+
+      <!-- Open the modal using ID.showModal() method -->
+      <dialog id="taskModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <div id="taskModalContainer"></div>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn bg-primary text-white">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </main>
   </body>
 </html>
