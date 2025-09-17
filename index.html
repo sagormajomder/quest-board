@@ -3,132 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Quest Board - A minimal task management system</title>
-
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet" />
-    <!-- Custom Script -->
-    <script defer src="./script.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/output.css" />
   </head>
-  <body class="text-body min-h-screen">
-    <header class="bg-primary py-5 mb-10">
-      <h1 class="font-bold text-2xl text-center">Quest Board</h1>
-    </header>
-    <main class="max-w-[71.25rem] mx-auto grid grid-cols-3 gap-4 items-start">
-      <!-- Planning Section -->
-      <section class="bg-[#5f7b7b] shadow-md rounded-xl p-4 space-y-4">
-        <h2 class="text-center text-xl font-semibold text-[#d1d9d9]">
-          Planning
-        </h2>
-        <!-- Add  Task-->
-        <div
-          role="button"
-          id="openModalBtn"
-          class="p-2 bg-white rounded-md cursor-pointer hover:bg-primary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-10 mx-auto text-light">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
-        </div>
-        <!-- Modal -->
-        <dialog id="addTaskModal" class="modal modal-bottom sm:modal-middle">
-          <div class="modal-box">
-            <!-- Modal Container -->
-            <div id="modalContainer" class="space-y-5">
-              <input
-                class="input bg-primary text-body w-full"
-                id="taskName"
-                type="text"
-                placeholder="Type Task Name" />
-              <textarea
-                name=""
-                id="taskDetails"
-                class="textarea bg-primary text-body w-full"
-                placeholder="Type Task details"></textarea>
-            </div>
-
-            <div class="modal-action">
-              <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button id="addTaskBtn" class="btn bg-primary text-body">
-                  Add Task
-                </button>
-                <button class="btn bg-primary text-body">Cancel</button>
-              </form>
-            </div>
-            <!-- Alert -->
-            <div
-              id="taskNameAlert"
-              role="alert"
-              class="alert alert-error alert-vertical sm:alert-horizontal hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 shrink-0 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span
-                >Task name is requirement. Please type task name to add
-                task</span
-              >
-            </div>
-          </div>
-        </dialog>
-        <!-- Task List -->
-        <ul
-          id="planningTaskList"
-          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
-      </section>
-      <!-- Progress Section -->
-      <section class="shadow-md bg-[#fcc419] rounded-xl p-4">
-        <h2 class="text-center text-xl font-semibold text-dark mb-3">
-          In Progress
-        </h2>
-        <ul
-          id="progressTaskList"
-          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
-      </section>
-      <!-- Completed Section -->
-      <section class="bg-primary shadow-md rounded-xl p-4">
-        <h2 class="text-center text-xl font-semibold text-body mb-3">
-          Completed
-        </h2>
-        <ul
-          id="completedTaskList"
-          class="flex flex-col gap-4 text-primary drop-zone min-h-[3.125rem] transition duration-300"></ul>
-      </section>
-
-      <!-- Open the modal using ID.showModal() method -->
-      <dialog id="taskModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <div id="taskModalContainer"></div>
-          <div class="modal-action">
-            <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
-              <button class="btn bg-primary text-white">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-    </main>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
