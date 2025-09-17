@@ -114,7 +114,7 @@ document.getElementById('addTaskBtn').addEventListener('click', e => {
   displayTaskList(state.planningTasks, planningTaskListEl);
 });
 
-// Drop
+// Drop Zone
 document.querySelectorAll('.drop-zone').forEach(el => {
   // DragOver
   el.addEventListener('dragover', e => {
@@ -144,9 +144,10 @@ document.querySelectorAll('.drop-zone').forEach(el => {
       e.target.classList.add('min-h-[3.125rem]');
       e.target.classList.remove('h-[6.25rem]');
 
-      // Check is tasklist contain the task
+      // Check if tasklist contain the task
       const taskId = draggableEl.dataset.taskId;
 
+      // Checking into planning task list
       if (state.planningTasks.find(t => t.id === taskId)) {
         const task = state.planningTasks.find(t => t.id === taskId);
 
@@ -163,7 +164,9 @@ document.querySelectorAll('.drop-zone').forEach(el => {
         if (el === completedTaskListEl) {
           state.completedTasks.push({ ...task, emoji: '✅' });
         }
-      } else if (state.progressTasks.find(t => t.id === taskId)) {
+      }
+      //  Checking into progress task list
+      else if (state.progressTasks.find(t => t.id === taskId)) {
         const task = state.progressTasks.find(t => t.id === taskId);
 
         // remove the task
@@ -180,7 +183,9 @@ document.querySelectorAll('.drop-zone').forEach(el => {
         if (el === completedTaskListEl) {
           state.completedTasks.push({ ...task, emoji: '✅' });
         }
-      } else if (state.completedTasks.find(t => t.id === taskId)) {
+      }
+      //  Checking into completed task list
+      else if (state.completedTasks.find(t => t.id === taskId)) {
         const task = state.completedTasks.find(t => t.id === taskId);
 
         // remove the task
@@ -198,6 +203,7 @@ document.querySelectorAll('.drop-zone').forEach(el => {
           state.progressTasks.push({ ...task, emoji: '🚀' });
         }
       }
+
       e.target.appendChild(draggableEl);
       displayTaskList(state.planningTasks, planningTaskListEl);
       displayTaskList(state.progressTasks, progressTaskListEl);
